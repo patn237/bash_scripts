@@ -36,14 +36,30 @@ clear
 
     Enter selection [0-4] > "
 
-    #Create another if/else statement for invalid entry.
+    if [[ ! "$REPLY" =~ ^[0-4]$ ]]; then
+        echo "Invalid entry. Please try again."
+        sleep "$DELAY"
+        clear
+    fi
 
     if [[ "$REPLY" == 1 ]]; then
         if [ -d "/home/$USER/system_check_logs" ]; then
             echo "The directory, system_check_logs, already exists."
             sleep "$DELAY"
             echo "Creating log file..."
-            df -h | sort -r -k 5 -i | grep -v "loop" > /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            echo "System Name:" >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            echo "$HOSTNAME" >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            echo -en '\n' >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            echo "System Uptime:" >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            uptime >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            echo -en '\n' >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            echo "Network Information:" >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            ifconfig wlp3s0 >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            echo -en '\n' >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            df -h | sort -r -k 5 -i | grep -v "loop" >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            echo -en '\n' >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            echo "Home Space Utilization:" >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            du -sh "$HOME" >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
             sleep "$DELAY"
             echo "Log file created."
             sleep "$DELAY"
@@ -52,7 +68,19 @@ clear
             mkdir /home/$USER/system_check_logs
             sleep "$DELAY"
             echo "Creating log file..."
-            df -h | sort -r -k 5 -i | grep -v "loop" > /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            echo "System Name:" >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            echo "$HOSTNAME" >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            echo -en '\n' >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            echo "System Uptime:" >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            uptime >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            echo -en '\n' >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            echo "Network Information:" >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            ifconfig wlp3s0 >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            echo -en '\n' >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            df -h | sort -r -k 5 -i | grep -v "loop" >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            echo -en '\n' >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            echo "Home Space Utilization:" >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
+            du -sh "$HOME" >> /home/$USER/system_check_logs/system_check_$(date +%m%d%Y).txt
             sleep "$DELAY"
             echo "Log file created."
             sleep "$DELAY"
