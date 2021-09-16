@@ -85,6 +85,58 @@ clear
             echo "Log file created."
             sleep "$DELAY"
         fi
+
+    elif [[ "$REPLY" == 2 ]]; then
+        clear
+        while [[ "$REPLY" != d ]]; do
+            read -p "Choose one of the following
+            a. Perform Update
+            b. Perform Upgrade
+            c. Perform Update and Upgrade
+            d. Exit
+            
+            Enter selection [a-d] > "
+
+            if [[ ! "$REPLY" =~ ^[a-d]$ ]]; then
+                echo "Invalid entry. Please try again."
+                sleep "$DELAY"
+                clear
+                continue
+            fi
+
+            if [[ "$REPLY" == a ]]; then
+                echo "Performing Update..."
+                apt-get -y update
+                sleep "$DELAY"
+                echo "Update complete."
+                sleep "$DELAY"
+                clear
+                continue
+            elif [[ "$REPLY" == b ]]; then
+                echo "Performing Upgrade..."
+                apt-get -y upgrade
+                sleep "$DELAY"
+                echo "Upgrade complete."
+                sleep "$DELAY"
+                clear
+                continue
+            elif [[ "$REPLY" == c ]]; then
+                echo "Performing Update then Upgrade..."
+                apt-get -y update && apt-get -y upgrade
+                sleep "$DELAY"
+                echo "Update and Upgrade complete."
+                sleep "$DELAY"
+                clear
+                continue
+            else [[ "$REPLY" == d ]]
+                echo "Returning to main menu."
+                sleep "$DELAY"
+                return
+            fi
+            break
+        done
+
+
     else
         echo "Invalid entry. Try again" #Need to keep adding to script as Invalid entry and Exiting script appear at same time.
         continue
