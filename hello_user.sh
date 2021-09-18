@@ -136,11 +136,62 @@ clear
             break
         done
 
+    elif [[ "$REPLY" == 3 ]]; then
+        clear
+        while [[ "$target" != 0 ]]; do
 
-    else
-        echo "Invalid entry. Try again" #Need to keep adding to script as Invalid entry and Exiting script appear at same time.
+            echo -en '\n'
+            echo "Please note, all directories and files will be stored into /home/$USER/backups. If there is no backups directory, this script will make one for you." 
+            echo -en '\n'
+            echo "Press 0 to return to main menu."
+            echo -en '\n'
+            read -p "Please type in which directory or file you wish to backup: " target
+            
+            if [[ "$target" != 0 ]]; then
+
+                if [ -d /home/$USER/backups ]; then
+                    echo "Backing up target..."
+                    sleep "$DELAY"
+                    cp -rv $target /home/$USER/backups
+                    echo "Backup completed."
+                    sleep "$DELAY"
+                    clear
+                    continue
+                else
+                    echo "Creating backups directory..."
+                    mkdir /home/$USER/backups
+                    sleep "$DELAY"
+                    echo "backups directory created."
+                    sleep "$DELAY"
+                    echo "Backing up target..."
+                    sleep "$DELAY"
+                    cp -rv $target /home/$USER/backups
+                    echo "Backup completed."
+                    sleep "$DELAY"
+                    clear
+                    continue
+                fi
+
+            else [[ "$target" == 0 ]]
+                echo -en '\n'
+                echo "Returning to main menu."
+                sleep "$DELAY"
+                unset target
+                return
+            fi
+            break
+        done
+
+    elif [[ "$REPLY" == 4 ]]; then
+        echo "Opening the Numbers game..."
+        sleep "$DELAY"
+        ./number_game.sh #Opens my numbers game script
+        sleep "$DELAY"
         continue
-    fi
 
+    else [[ "$REPLY" == 0 ]]
+        echo "Exiting script."
+    
+    fi
+    break
 done
-echo "Exiting script."
